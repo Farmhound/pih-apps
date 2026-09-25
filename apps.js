@@ -24,6 +24,6 @@ window.PIH_APPS = [
     name: 'Stock Requisition Tracker',
     description: 'Open, collected and delivered stock requisitions.',
     colour: '#3f8a4f',
-    url: ''   // paste the Requisition Tracker web app URL here
+    url: 'https://script.google.com/macros/s/AKfycbzrk8_xOPmzYq8YgfVKS777C_Ou13cHDA_igCvVBlb-84rQz_ufmP3tVOiTV8SpfyWe/exec'
   }
 ];
