@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PIH Apps</title>
+  <meta name="theme-color" content="#16294d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PIH Apps">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <style>
+    /* ====== PIH dashboard house style ====== */
+    :root {
+      --navy: #16294d; --gold: #d2a53a; --green: #3f8a4f; --red: #a83232;
+      --ink: #1b2233; --muted: #6b7686; --bg: #f4f6f9; --card: #fff; --rule: #e3e7ed;
+      --top: env(safe-area-inset-top, 0px); --bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { background: var(--bg); color: var(--ink); -webkit-tap-highlight-color: transparent;
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
+    /* Home */
+    #home { min-height: 100%; padding: calc(var(--top) + 26px) 20px calc(var(--bottom) + 30px); max-width: 760px; margin: 0 auto; }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+    .brand img { width: 46px; height: 46px; border-radius: 11px; }
+    h1 { margin: 0; font-size: 1.9em; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
+    .sub { color: var(--muted); margin: 6px 0 24px; font-size: 0.95em; }
+    .apps { display: grid; gap: 14px; }
+    .app { display: block; width: 100%; text-align: left; background: var(--card); border: none; border-left: 5px solid var(--c);
+           border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(22,41,77,0.06); cursor: pointer; color: inherit; }
+    .app:active { transform: scale(0.99); }
+    .app b { display: block; font-size: 1.15em; color: var(--navy); font-weight: 800; }
+    .app span { display: block; color: var(--muted); margin-top: 4px; font-size: 0.93em; }
+    .app[disabled] { opacity: 0.55; cursor: default; }
+    .app[disabled] span::after { content: ' Link not set yet.'; color: var(--red); }
+    .install { margin-top: 26px; background: #fff; border-radius: 10px; padding: 14px 16px; color: var(--muted); font-size: 0.9em; line-height: 1.45; display: none; }
+    .install b { color: var(--navy); }
+    .install button { margin-top: 10px; background: var(--gold); color: var(--navy); border: none; border-radius: 8px; padding: 9px 16px; font-weight: 700; cursor: pointer; }
+
+    /* App view */
+    #view { position: fixed; inset: 0; display: none; flex-direction: column; background: var(--bg); }
+    .bar { background: var(--navy); color: #fff; padding: calc(var(--top) + 6px) 8px 6px; display: flex; align-items: center; gap: 4px; flex: none; }
+    .bar h2 { flex: 1; margin: 0; font-size: 1em; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+    .bar button { background: none; border: none; color: #fff; min-width: 44px; height: 40px; border-radius: 8px; cursor: pointer; font-size: 1.05em; font-weight: 600; }
+    .bar button:active { background: rgba(255,255,255,0.12); }
+    .frame-wrap { flex: 1; position: relative; padding-bottom: var(--bottom); background: #fff; }
+    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--muted); background: var(--bg); text-align: center; padding: 24px; }
+    .spinner { width: 34px; height: 34px; border: 3px solid var(--rule); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    .slow { display: none; max-width: 320px; font-size: 0.92em; }
+    .slow a { color: var(--navy); font-weight: 700; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+  </style>
+</head>
+<body>
+  <main id="home">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="">
+      <h1>PIH Apps</h1>
+    </div>
+    <p class="sub">Premier Irish Homes operations tools</p>
+    <div class="apps" id="apps"></div>
+
+    <div class="install" id="installTip"></div>
+  </main>
+
+  <section id="view" aria-live="polite">
+    <div class="bar">
+      <button type="button" id="backBtn" aria-label="All apps">‹ Apps</button>
+      <h2 id="viewTitle"></h2>
+      <button type="button" id="reloadBtn" aria-label="Reload">⟳</button>
+      <button type="button" id="openBtn" aria-label="Open in browser">↗</button>
+    </div>
+    <div class="frame-wrap">
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div>Loading…</div>
+        <div class="slow" id="slow">Taking a while? If you see a Google sign-in or "access" message, <a id="slowLink" target="_blank" rel="noopener">open it in the browser</a> instead.</div>
+      </div>
+      <iframe id="frame" title="App" allow="clipboard-write; camera; geolocation; fullscreen"></iframe>
+    </div>
+  </section>
+
+  <script src="apps.js"></script>
+  <script>
+    const apps = window.PIH_APPS || [];
+    const $ = function(id) { return document.getElementById(id); };
+    let slowTimer = null;
+    let current = null;
+
+    function renderHome() {
+      const box = $('apps'); box.innerHTML = '';
+      apps.forEach(function(a) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'app'; b.style.setProperty('--c', a.colour || '#16294d');
+        if (!a.url) b.disabled = true;
+        const t = document.createElement('b'); t.textContent = a.name;
+        const d = document.createElement('span'); d.textContent = a.description || '';
+        b.appendChild(t); b.appendChild(d);
+        b.addEventListener('click', function() { openApp(a.id, true); });
+        box.appendChild(b);
+      });
+    }
+
+    function openApp(id, push) {
+      const a = apps.filter(function(x) { return x.id === id; })[0];
+      if (!a || !a.url) return showHome(push);
+      current = a;
+      document.title = a.name;
+      $('viewTitle').textContent = a.name;
+      $('slowLink').href = a.url;
+      $('loading').style.display = 'flex'; $('slow').style.display = 'none';
+      clearTimeout(slowTimer);
+      slowTimer = setTimeout(function() { $('slow').style.display = 'block'; }, 8000);
+      $('frame').src = a.url;
+      $('home').style.display = 'none';
+      $('view').style.display = 'flex';
+      if (push) history.pushState({ app: id }, '', '?app=' + encodeURIComponent(id));
+    }
+
+    function showHome(push) {
+      current = null;
+      document.title = 'PIH Apps';
+      $('frame').src = 'about:blank';
+      $('view').style.display = 'none';
+      $('home').style.display = 'block';
+      clearTimeout(slowTimer);
+      if (push) history.pushState({}, '', location.pathname);
+    }
+
+    $('frame').addEventListener('load', function() {
+      if ($('frame').src === 'about:blank') return;
+      $('loading').style.display = 'none';
+      clearTimeout(slowTimer);
+    });
+    $('backBtn').addEventListener('click', function() { showHome(true); });
+    $('reloadBtn').addEventListener('click', function() { if (current) openApp(current.id, false); });
+    $('openBtn').addEventListener('click', function() { if (current) window.open(current.url, '_blank', 'noopener'); });
+    window.addEventListener('popstate', function() {
+      const id = new URLSearchParams(location.search).get('app');
+      if (id) openApp(id, false); else showHome(false);
+    });
+
+    // Install tips (only when not already running as an installed app)
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    let deferredPrompt = null;
+    if (!standalone) {
+      const tip = $('installTip');
+      if (isIOS) {
+        tip.innerHTML = '<b>Add to your home screen:</b> tap the Share button in Safari, then <b>Add to Home Screen</b>.';
+        tip.style.display = 'block';
+      }
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault(); deferredPrompt = e;
+        tip.innerHTML = '<b>Install PIH Apps</b> on this phone for one-tap access.<br><button type="button" id="installBtn">Install app</button>';
+        tip.style.display = 'block';
+        $('installBtn').addEventListener('click', function() {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.finally(function() { deferredPrompt = null; tip.style.display = 'none'; });
+        });
+      });
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js').catch(function() {}); });
+    }
+
+    renderHome();
+    const startId = new URLSearchParams(location.search).get('app');
+    if (startId) openApp(startId, false);
+  </script>
+</body>
+</html>
