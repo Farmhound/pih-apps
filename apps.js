@@ -25,5 +25,12 @@ window.PIH_APPS = [
     description: 'Open, collected and delivered stock requisitions.',
     colour: '#3f8a4f',
     url: 'https://script.google.com/macros/s/AKfycbzrk8_xOPmzYq8YgfVKS777C_Ou13cHDA_igCvVBlb-84rQz_ufmP3tVOiTV8SpfyWe/exec'
+  },
+  {
+    id: 'problematic-cases',
+    name: 'Problematic Cases',
+    description: 'Case list, completions and Tuesday review calendar.',
+    colour: '#c0512f',
+    url: 'https://script.google.com/macros/s/AKfycbztU4U1LObUWFW1q6sjdF1d-YdysxkdTKb08YzEqzOWgNk6zimbQFqJmTeQ9qlZ7uKa/exec'
   }
 ];
