@@ -39,5 +39,12 @@ window.PIH_APPS = [
     description: 'Staff tools, tool requests and repair requests.',
     colour: '#2f6f9f',
     url: 'https://script.google.com/macros/s/AKfycbx-u5o3rTivPEMH2fqIGlrGcqD6mwEE_eLScwLcHTJyuFWLT-pb5CQDKMRQpUTph1s_IQ/exec'
+  },
+  {
+    id: 'staff-hub',
+    name: 'Staff Hub Checklist',
+    description: 'Employee house set-up checklists, room by room.',
+    colour: '#6b4fa0',
+    url: 'https://script.google.com/macros/s/AKfycby1kPopJiWa4s1C_FjxPtDzZdVVsNoVFVa8WFB3cWUCI6RjWSK-it_vUS-s5HiY-OZQjw/exec'
   }
 ];
