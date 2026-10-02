@@ -32,5 +32,12 @@ window.PIH_APPS = [
     description: 'Case list, completions and Tuesday review calendar.',
     colour: '#c0512f',
     url: 'https://script.google.com/macros/s/AKfycbztU4U1LObUWFW1q6sjdF1d-YdysxkdTKb08YzEqzOWgNk6zimbQFqJmTeQ9qlZ7uKa/exec'
+  },
+  {
+    id: 'tool-ledger',
+    name: 'Tool Ledger',
+    description: 'Staff tools, tool requests and repair requests.',
+    colour: '#2f6f9f',
+    url: 'https://script.google.com/macros/s/AKfycbx-u5o3rTivPEMH2fqIGlrGcqD6mwEE_eLScwLcHTJyuFWLT-pb5CQDKMRQpUTph1s_IQ/exec'
   }
 ];
