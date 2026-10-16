@@ -46,5 +46,12 @@ window.PIH_APPS = [
     description: 'Employee house set-up checklists, room by room.',
     colour: '#6b4fa0',
     url: 'https://script.google.com/macros/s/AKfycby1kPopJiWa4s1C_FjxPtDzZdVVsNoVFVa8WFB3cWUCI6RjWSK-it_vUS-s5HiY-OZQjw/exec?mkey=e9c559d0a8b643a59ef8f89d3615b4bdc6d148b9'
+  },
+  {
+    id: 'site-visit',
+    name: 'Site Visit Checklist',
+    description: 'Pre-pricing site visits: measurements, recommendations and sign-off.',
+    colour: '#17807f',
+    url: 'https://script.google.com/macros/s/AKfycbz27H86uR1ACJp_Ilt6AqiQzHiu6sLDklllUspofua6qG4uD757VYwPzxiI6Xsu7vQ26g/exec'
   }
 ];
