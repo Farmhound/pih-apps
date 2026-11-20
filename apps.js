@@ -53,5 +53,12 @@ window.PIH_APPS = [
     description: 'Pre-pricing site visits: measurements, recommendations and sign-off.',
     colour: '#17807f',
     url: 'https://script.google.com/macros/s/AKfycbz27H86uR1ACJp_Ilt6AqiQzHiu6sLDklllUspofua6qG4uD757VYwPzxiI6Xsu7vQ26g/exec'
+  },
+  {
+    id: 'snag-tracker',
+    name: 'Snag Completion Tracker',
+    description: 'Advised completion dates and 2-working-day snag visits.',
+    colour: '#2E9E5B',
+    url: 'PASTE YOUR /exec LINK HERE'
   }
 ];
