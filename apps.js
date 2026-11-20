@@ -59,6 +59,6 @@ window.PIH_APPS = [
     name: 'Snag Completion Tracker',
     description: 'Advised completion dates and 2-working-day snag visits.',
     colour: '#2E9E5B',
-    url: 'PASTE YOUR /exec LINK HERE'
+    url: 'https://script.google.com/macros/s/AKfycbwo-nIibF6tUuRSlBfP_zK23Yij5XztGPxZraomsjYSS0dLC64-BlArQvd7HGlc_ope/exec'
   }
 ];
